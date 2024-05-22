@@ -132,30 +132,81 @@ const netflixArchive = [
 
 // Creare una classe Movie che contenga le informazioni sopra indicate.
 class Movie {
-  constructor(title, year, genre, rating, type, seasons = null) {
-    this.title = title;
-    this.year = year;
-    this.genre = genre;
-    this.rating = rating;
-    this.type = type;
-    this.seasons = seasons;
+
+    #title;
+    #year;
+    #genre;
+    #rating;
+    #type;
+
+  constructor(title, year, genre, rating, type) {
+    this.#title = title;
+    this.#year = parseInt(year);
+    this.#genre = genre;
+    this.#rating = parseInt(rating).toFixed(1);
+    this.#type = type;
   }
+
+  get title() {
+    return this._title;
+  }
+  set title(value) {
+    this._title = value.toString();
+  }
+
+  get year() {
+    return this._year;
+  }
+  set year(value) {
+    this._year = parseInt(value);
+  }
+
+  get genre() {
+    return this._genre;
+  }
+  set genre(value) {
+    this._genre = value.toString();
+  }
+
+  get rating() {
+    return this._rating;
+  }
+  set rating(value) {
+    this._rating = parseInt(value).toFixed(1);
+  }
+
+  get type() {
+    return this._type;
+  }
+  set type(value) {
+    this._type = value.toString();
+  }
+
 
   // Entrambe le classi dovranno avere un metodo toString() che restituisca una stringa che descriva l'oggetto.
   toString() {
-    return `${this.title} è un film di genere ${this.genre}. E' stato rilasciato nel ${this.year} ed ha un voto di ${this.rating}.`;
+    return `${this.#title} è un film di genere ${this.#genre}. E' stato rilasciato nel ${this.#year} ed ha un voto di ${this.#rating}.`;
   }
 }
 
 // Creare una classe TvSerie che estenda la classe Movie e ne aggiunta la proprietà seasons.
 class TvSerie extends Movie {
+    #seasons;
   constructor(title, year, genre, rating, type, seasons) {
     super(title, year, genre, rating, type);
-    this.seasons = seasons;
+    this.#seasons = parseInt(seasons);
   }
+
+  get seasons() {
+    return this._seasons;
+  }
+  set seasons(value) {
+    this._seasons = parseInt(value);
+  }
+
   // Entrambe le classi dovranno avere un metodo toString() che restituisca una stringa che descriva l'oggetto.
   toString() {
-    return `${this.title} è una serie tv di genere ${this.genre}. E' stata rilasciata nel ${this.year} ed in totale sono state prodotte ${this.seasons} stagioni. Ha un voto di ${this.rating}.`;
+    return `${this.title} è una serie tv di genere ${this.genre}. E' stata rilasciata nel ${this.year} ed in totale sono state prodotte ${this.#seasons} stagioni. Ha un voto di ${this.rating}.`;
   }
 }
 
