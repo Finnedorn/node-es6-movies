@@ -132,12 +132,11 @@ const netflixArchive = [
 
 // Creare una classe Movie che contenga le informazioni sopra indicate.
 class Movie {
-
-    #title;
-    #year;
-    #genre;
-    #rating;
-    #type;
+  #title;
+  #year;
+  #genre;
+  #rating;
+  #type;
 
   constructor(title, year, genre, rating, type) {
     this.#title = title;
@@ -182,16 +181,17 @@ class Movie {
     this._type = value.toString();
   }
 
-
   // Entrambe le classi dovranno avere un metodo toString() che restituisca una stringa che descriva l'oggetto.
   toString() {
-    return `${this.#title} è un film di genere ${this.#genre}. E' stato rilasciato nel ${this.#year} ed ha un voto di ${this.#rating}.`;
+    return `${this.#title} è un film di genere ${
+      this.#genre
+    }. E' stato rilasciato nel ${this.#year} ed ha un voto di ${this.#rating}.`;
   }
 }
 
 // Creare una classe TvSerie che estenda la classe Movie e ne aggiunta la proprietà seasons.
 class TvSerie extends Movie {
-    #seasons;
+  #seasons;
   constructor(title, year, genre, rating, type, seasons) {
     super(title, year, genre, rating, type);
     this.#seasons = parseInt(seasons);
@@ -206,7 +206,11 @@ class TvSerie extends Movie {
 
   // Entrambe le classi dovranno avere un metodo toString() che restituisca una stringa che descriva l'oggetto.
   toString() {
-    return `${this.title} è una serie tv di genere ${this.genre}. E' stata rilasciata nel ${this.year} ed in totale sono state prodotte ${this.#seasons} stagioni. Ha un voto di ${this.rating}.`;
+    return `${this.title} è una serie tv di genere ${
+      this.genre
+    }. E' stata rilasciata nel ${this.year} ed in totale sono state prodotte ${
+      this.#seasons
+    } stagioni. Ha un voto di ${this.rating}.`;
   }
 }
 
@@ -214,22 +218,22 @@ class TvSerie extends Movie {
 // viene creata un istanza della classe Movie o TvSerie in base al type e salvata nel nuovo array.
 const moviesAndSeries = netflixArchive.map((product) => {
   if (product.type === "movie") {
-    return product = new Movie(
+    return (product = new Movie(
       product.title,
       product.year,
       product.genre,
       product.rating,
       product.type
-    );
+    ));
   } else {
-   return product = new TvSerie(
+    return (product = new TvSerie(
       product.title,
       product.year,
       product.genre,
       product.rating,
       product.type,
       product.seasons
-    );
+    ));
   }
 });
 
@@ -249,7 +253,7 @@ const getVote = (array, genre) => {
 getVote(netflixArchive, "Action");
 
 // Creiamo una funzione che restituisca la lista di tutti i generi dei film, senza che questi si ripetano.
-const getGenres = array => {
+const getGenres = (array) => {
   let genre = [];
   array.forEach((product) => {
     if (!genre.includes(product.genre)) {
@@ -257,15 +261,47 @@ const getGenres = array => {
     }
   });
   return genre;
-}
+};
 getGenres(netflixArchive);
-
 
 // Creiamo una funzione che filtri i film in base ad un genere passato come argomento e ne ritorni un array con all'interno il risultato della funzione toString() di ogni film.
 function filterByGenre(array, genre) {
- return array .filter((product) => product.genre === genre)
-            .map((product) => {
-            return product.toString();
-            });
+  return array
+    .filter((product) => product.genre === genre)
+    .map((product) => {
+      return product.toString();
+    });
 }
 filterByGenre(moviesAndSeries, "Action", "movie");
+
+// Creare una classe Cart dove poter salvare i film che si intende noleggiare. Tramite delle funzioni, poter aggiungere o togliere dei film dal carrello.
+class Cart {
+  #cartArray;
+  #counterPrice;
+
+  constructor(product) {
+    this.product = product;
+    this.#cartArray = [];
+    this.#counterPrice = 0;
+  }
+
+  //Tramite delle funzioni, poter aggiungere o togliere dei film dal carrello.
+  addProduct(product) {
+    this.#cartArray.push(product);
+    this.#counterPrice++;
+  }
+  removeProduct(product) {
+    this.#cartArray.splice(this.#cartArray.indexOf(product), 1);
+    this.#counterPrice--;
+  }
+  //Creare poi una funzione che stampi il costo totale dei film da noleggiare, dove per ogni film occorre specificare un prezzo fisso di 3.99
+  getPrice() {
+    return `Il tuo carrello ha un prezzo di ${this.#counterPrice * 3.99}$`;
+  }
+}
+
+const cart = new Cart(moviesAndSeries);
+cart.addProduct(moviesAndSeries[0]);
+cart.addProduct(moviesAndSeries[1]);
+cart.removeProduct(moviesAndSeries[0]);
+cart.getPrice();
